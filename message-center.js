@@ -85,7 +85,7 @@ MessageCenterModule.
     /*jshint multistr: true */
     var templateString = '\
     <div id="mc-messages-wrapper">\
-      <div class="alert alert-{{ message.type }} {{ animation }}" ng-repeat="message in mcMessages">\
+      <div class="alert alert-{{ message.type }}" ng-repeat="message in mcMessages | limitTo:1">\
         <a class="close" ng-click="message.close();" data-dismiss="alert" aria-hidden="true">&times;</a>\
         <span ng-switch on="message.html">\
         <span ng-switch-when="true">\
@@ -114,7 +114,6 @@ MessageCenterModule.
         if (messageCenterService.offlistener === undefined) {
           messageCenterService.offlistener = $rootScope.$on('$locationChangeSuccess', changeReaction);
         }
-        scope.animation = attrs.animation || 'fade in';
       }
     };
   }]);
