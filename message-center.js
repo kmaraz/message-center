@@ -45,9 +45,23 @@ MessageCenterModule.
             }, options.timeout);
           }
 
-          if this.mcMessages.indexOf(message) === -1 {
+          if(this.mcMessages.length > 0) {
+            var a = true
+            angular.forEach(this.mcMessages, function(value, key) {
+              if(value.type == type) {
+                console.info(0)
+                a = false
+              }
+            })
+            if(a) {
+              this.mcMessages.push(messageObject);
+            }
+
+          }
+          else {
             this.mcMessages.push(messageObject);
           }
+
           return messageObject;
         },
         remove: function (message) {
