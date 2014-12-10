@@ -44,7 +44,10 @@ MessageCenterModule.
               messageObject.close();
             }, options.timeout);
           }
-          this.mcMessages.push(messageObject);
+
+          if this.mcMessages.indexOf(message) === -1 {
+            this.mcMessages.push(messageObject);
+          }
           return messageObject;
         },
         remove: function (message) {
@@ -85,7 +88,7 @@ MessageCenterModule.
     /*jshint multistr: true */
     var templateString = '\
     <div id="mc-messages-wrapper">\
-      <div class="alert alert-{{ message.type }}" ng-repeat="message in mcMessages | limitTo:1">\
+      <div class="alert alert-{{ message.type }}" ng-repeat="message in mcMessages">\
         <a class="close" ng-click="message.close();" data-dismiss="alert" aria-hidden="true">&times;</a>\
         <span ng-switch on="message.html">\
         <span ng-switch-when="true">\
