@@ -103,7 +103,6 @@ MessageCenterModule.
     var templateString = '\
     <div id="mc-messages-wrapper">\
       <div class="alert alert-{{ message.type }}" ng-repeat="message in mcMessages">\
-        <a class="close" ng-click="message.close();" data-dismiss="alert" aria-hidden="true">&times;</a>\
         <span ng-switch on="message.html">\
         <span ng-switch-when="true">\
           <span ng-bind-html="message.message"></span>\
