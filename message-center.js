@@ -49,7 +49,6 @@ MessageCenterModule.
             var a = true
             angular.forEach(this.mcMessages, function(value, key) {
               if(value.type == type) {
-                console.info(0)
                 a = false
               }
             })
