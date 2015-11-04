@@ -45,6 +45,10 @@ MessageCenterModule.
             }, options.timeout);
           }
 
+          if (angular.isDefined(options.countdown)) {
+            messageObject.countdown = options.countdown;
+          }
+
           if(this.mcMessages.length > 0) {
             var a = true
             angular.forEach(this.mcMessages, function(value, key) {
@@ -107,7 +111,7 @@ MessageCenterModule.
           <span ng-bind-html="message.message"></span>\
         </span>\
         <span ng-switch-default>\
-          {{ message.message }}\
+          {{ message.message }} <span ng-show="message.countdown" countdown="message.countdown">1212</span>\
         </span>\
       </div>\
     </div>\
@@ -129,6 +133,45 @@ MessageCenterModule.
         if (messageCenterService.offlistener === undefined) {
           messageCenterService.offlistener = $rootScope.$on('$locationChangeSuccess', changeReaction);
         }
+      }
+    };
+  }]);
+
+MessageCenterModule.
+  directive('countdown', ['$rootScope', '$timeout', function ($rootScope, $timeout) {
+    /*jshint multistr: true */
+    var templateString = '\
+    <span ng-bind="counter"></span>...\
+    ';
+    return {
+      restrict: 'EA',
+      scope: {
+        countdown: '='
+      },
+      template: templateString,
+      link: function(scope, element, attrs) {
+        scope.counter = angular.copy(scope.countdown);
+        var stopped;
+
+        scope.stop = function(){
+          $timeout.cancel(stopped);
+        }
+
+        scope.start = function() {
+          stopped = $timeout(function() {
+           console.log(scope.counter);
+           scope.counter--;
+           scope.start();
+          }, 1000);
+          if(scope.counter < 0) {
+            scope.counter = angular.copy(scope.countdown);
+          }
+        };
+        scope.start();
+
+        scope.$on("$destroy", function( event ) {
+          scope.stop();
+        });
       }
     };
   }]);
